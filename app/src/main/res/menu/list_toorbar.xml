@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/app_bar_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Add"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/app_bar_sort"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="排序"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/app_bar_sort_az"
+                android:icon="@android:drawable/ic_menu_sort_alphabetically"
+                android:title="按字母顺序升序排列"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/app_bar_sort_za"
+                android:icon="@android:drawable/ic_menu_sort_alphabetically"
+                android:title="按字母顺序降序排列"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/app_bar_sort_type"
+                android:icon="@android:drawable/ic_menu_sort_alphabetically"
+                android:title="按类型顺序排列"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/app_bar_sort_dateA"
+                android:icon="@android:drawable/ic_menu_sort_alphabetically"
+                android:title="按创建顺序升序排列"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/app_bar_sort_dateD"
+                android:icon="@android:drawable/ic_menu_sort_alphabetically"
+                android:title="按创建顺序降序排列"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+
+</menu>

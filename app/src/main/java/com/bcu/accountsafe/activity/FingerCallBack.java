@@ -1,5 +1,6 @@
 package com.bcu.accountsafe.activity;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
@@ -14,6 +15,7 @@ public class FingerCallBack extends FingerprintManagerCompat.AuthenticationCallb
     public void onAuthenticationError(int errMsgId, CharSequence errString) {
         super.onAuthenticationError(errMsgId, errString);
         Log.d(TAG, "onAuthenticationError: " + errString);
+        MainActivity.showToast("失败次数过多，请稍后再试");
     }
 
     @Override
@@ -26,11 +28,13 @@ public class FingerCallBack extends FingerprintManagerCompat.AuthenticationCallb
     public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
         super.onAuthenticationSucceeded(result);
         Log.d(TAG, "onAuthenticationSucceeded: " + "验证成功");
+        MainActivity.doLog();
     }
 
     @Override
     public void onAuthenticationFailed() {
         super.onAuthenticationFailed();
         Log.d(TAG, "onAuthenticationFailed: " + "验证失败");
+        MainActivity.showToast("识别失败");
     }
 }
