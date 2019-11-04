@@ -71,6 +71,7 @@ public class ListActivity extends AppCompatActivity {
                         info.setUsername("uwuw");
                         infoViewModel.insertInfo(info);
                         break;
+                        //adashashfusauosigewi
                     }
 
                 }
