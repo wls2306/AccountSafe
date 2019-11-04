@@ -8,14 +8,20 @@ import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bcu.accountsafe.R;
 import com.bcu.accountsafe.ViewAdapter.codeAdaputer;
@@ -40,6 +46,7 @@ public class ListActivity extends AppCompatActivity {
     private MenuItem item ;
     private SearchView searchView;
     private AlertDialog.Builder builder;
+    private List<Info> infosL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,22 +67,54 @@ public class ListActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.app_bar_add:{
-//                        builder = new AlertDialog.Builder(ListActivity.this);
-//                        View view = LayoutInflater.from(ListActivity.this).inflate(R.layout.info_layout, null);
-//                        builder.setView(view);
+                        builder = new AlertDialog.Builder(ListActivity.this);
+                        View view = LayoutInflater.from(ListActivity.this).inflate(R.layout.add_layout, null);
+                        builder.setView(view);
+                        final EditText title,username,password;
+                        title=view.findViewById(R.id.editText);
+                        username=view.findViewById(R.id.editText2);
+                        password=view.findViewById(R.id.editText3);
+                        builder.setPositiveButton("确认",new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        String str1,str2,str3;
+                                        str1=title.getText().toString();
+                                        str2=username.getText().toString();
+                                        str3=password.getText().toString();
+                                        if(str1.equals("")||str2.equals("")||str3.equals("")) showToast("站点名称，用户名，密码不能为空");
+                                        else {
+                                            Info info=new Info();
+                                            info.setTitle(str1);
+                                            info.setPassword(str2);
+                                            info.setUsername(str3);
+                                            infoViewModel.insertInfo(info);
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
 
-
-                        Info info=new Info();
-                        info.setTitle("百度");
-                        info.setPassword("789");
-                        info.setUsername("uwuw");
-                        infoViewModel.insertInfo(info);
+                                    }
+                                })
+                                .show();
                         break;
-
                     }
-
                 }
                 return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int id=infosL.get(i).getId();
+                Info info=new Info();
+                info=infoViewModel.getInfoDecryptById(id);
+                showToast(info.getPassword());
             }
         });
 
@@ -87,9 +126,9 @@ public class ListActivity extends AppCompatActivity {
                 //TODO: 请在这里写Info列表的展示逻辑
                 //TODO: 请在这里写Info列表的展示逻辑
                 //TODO: 请在这里写Info列表的展示逻辑
+                infosL=new ArrayList<>();
                 hcList.clear();
                 hcLocation.clear();
-
 
                 //按拼音顺序排序
                 Collections.sort(infos, new Comparator<Info>() {
@@ -141,6 +180,7 @@ public class ListActivity extends AppCompatActivity {
                 itemAdapter=new codeAdaputer(infos,hcList,context);
                 listView.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
+                infosL=infos;
             }
         });
     }
@@ -193,6 +233,12 @@ public class ListActivity extends AppCompatActivity {
             convert += word;
         }
         return convert.toUpperCase();
+    }
+
+    private void showToast(String mes){
+        Toast toast=Toast.makeText(context,mes,Toast.LENGTH_SHORT);
+        toast.show();
+
     }
 
 

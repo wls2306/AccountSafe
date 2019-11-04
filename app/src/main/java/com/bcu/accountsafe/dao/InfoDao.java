@@ -26,7 +26,7 @@ public interface InfoDao {
     @Query("select * from info where category=:category")
     List<Info> getByCategory(String category);
 
-    @Query("select * from info where title=:title")
+    @Query("select * from info where title like '%'||:title||'%'")
     List<Info> getInfoByTitle(String title);
 
     @Query("select * from info where username=:username")
