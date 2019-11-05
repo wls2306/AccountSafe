@@ -36,5 +36,6 @@ public class FingerCallBack extends FingerprintManagerCompat.AuthenticationCallb
         super.onAuthenticationFailed();
         Log.d(TAG, "onAuthenticationFailed: " + "验证失败");
         MainActivity.showToast("识别失败");
+        //啊时代u是·
     }
 }
