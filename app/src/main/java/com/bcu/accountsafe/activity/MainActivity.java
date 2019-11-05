@@ -51,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         context=MainActivity.this;
         AActivity=this;
 
+
+
+
+
+
+
+
     }
 
     @Override

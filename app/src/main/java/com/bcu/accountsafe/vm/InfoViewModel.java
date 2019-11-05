@@ -14,7 +14,9 @@ import com.bcu.accountsafe.util.Utils;
 
 import java.util.List;
 
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 
@@ -137,17 +139,6 @@ public class InfoViewModel extends AndroidViewModel {
     }
 
 
-    /**
-     * 解密 并 解析时间戳
-     */
-    private Info doDecrypt(Info i){
-        byte[]  key = ANDROID_ID.getBytes();
-        SymmetricCrypto aes=new SymmetricCrypto(SymmetricAlgorithm.AES,key);
-        byte[] decrypt=aes.decrypt(i.getPassword());
-        i.setPassword(new String(decrypt));
-        i.setChangeDate(Utils.getTime(i.getChangeDate()));
-        return i;
-    }
 
     /**
      * 加密
@@ -156,9 +147,27 @@ public class InfoViewModel extends AndroidViewModel {
         byte[]  key = ANDROID_ID.getBytes();
         SymmetricCrypto aes=new SymmetricCrypto(SymmetricAlgorithm.AES,key);
         byte[] encrypt=aes.encrypt(info.getPassword());
-        info.setPassword(new String(encrypt));
+        info.setPassword( aes.encryptHex(encrypt));
+        System.out.println("加密结果:==================="+info.getPassword());
         return info;
     }
+
+
+    /**
+     * 解密 并 解析时间戳
+     */
+    private Info doDecrypt(Info i){
+        byte[]  key = ANDROID_ID.getBytes();
+        SymmetricCrypto aes=new SymmetricCrypto(SymmetricAlgorithm.AES,key);
+        byte[] decrypt=aes.decrypt(i.getPassword());
+        i.setPassword(aes.decryptStr(decrypt, CharsetUtil.CHARSET_UTF_8));
+        System.out.println("解密结果========================"+i.getPassword());
+        i.setChangeDate(Utils.getTime(i.getChangeDate()));
+        return i;
+    }
+
+
+
 
 
 

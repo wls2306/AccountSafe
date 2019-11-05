@@ -58,6 +58,10 @@ public class ListActivity extends AppCompatActivity {
         //菜单逻辑
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -86,8 +90,8 @@ public class ListActivity extends AppCompatActivity {
                                         else {
                                             Info info=new Info();
                                             info.setTitle(str1);
-                                            info.setPassword(str2);
-                                            info.setUsername(str3);
+                                            info.setPassword(str3);
+                                            info.setUsername(str2);
                                             infoViewModel.insertInfo(info);
                                         }
                                     }
